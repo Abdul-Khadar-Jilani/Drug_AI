@@ -10,7 +10,6 @@ This project is a Machine Learning-based Drug Recommendation System. The applica
 - [Usage](#usage)
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
-- [License](#license)
 - [Contact](#contact)
 
 ## Project Overview
@@ -47,10 +46,17 @@ To install and run this project locally, follow these steps:
 Once the application is running, you can access it via http://127.0.0.1:5000/ in your web browser. Enter the required input, and the application will provide drug recommendations based on the trained machine learning model.
 
 ## Technologies Used
-Python: Core language used for the machine learning model and Flask web framework.
-Flask: Web framework for serving the application.
-Scikit-learn: Machine learning library used for training the Passive-Aggressive Classifier.
-Docker: Containerization of the application for easy deployment.
-Render/Heroku: Deployment platform for the Flask application.
-Contributing
+- Python: Core language used for the machine learning model and Flask web framework.
+- Flask: Web framework for serving the application.
+- Scikit-learn: Machine learning library used for training the Passive-Aggressive Classifier.
+- Docker: Containerization of the application for easy deployment.
+- Render/Heroku: Deployment platform for the Flask application.
+## Contributing
 Contributions are welcome! Please fork the repository and create a pull request to contribute.
+
+## Contact
+For any questions or suggestions, feel free to contact me:
+
+- Name: Abdul Khadar Jilani
+- Email: [jilaniabdulgec@gmail.com]
+- LinkedIn: [https://www.linkedin.com/in/abdulkhadarjilani/]
