@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 
 import nltk
 nltk.download('stopwords')
+nltk.download('wordnet')
 HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.25rem; padding: 1rem">{}</div>"""
 
 app = Flask(__name__)
