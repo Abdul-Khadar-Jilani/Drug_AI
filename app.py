@@ -85,4 +85,4 @@ def top_drugs_extractor(condition,df):
     drug_lst = df_top[df_top['condition']==condition]['drugName'].head(3).tolist()
     return drug_lst
 if __name__ == "__main__":	
-	app.run(debug=True, host="localhost")
+	app.run(debug=True, host="0.0.0.0", port=5000)
