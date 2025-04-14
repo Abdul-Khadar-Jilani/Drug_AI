@@ -17,6 +17,12 @@ import time
 #     nltk.download('stopwords')
 #     nltk.download('wordnet')
 
+try:
+    stop = set(stopwords.words('english'))
+except LookupError:
+    nltk.download('stopwords')
+    stop = set(stopwords.words('english'))
+
 # Load resources
 MODEL_PATH = 'model/passmodel.pkl'
 TOKENIZER_PATH = 'model/tfidfvectorizer.pkl'
