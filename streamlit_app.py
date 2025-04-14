@@ -19,9 +19,12 @@ import time
 
 try:
     stop = set(stopwords.words('english'))
+    lemmatizer = WordNetLemmatizer()
 except LookupError:
     nltk.download('stopwords')
     stop = set(stopwords.words('english'))
+    nltk.download('wordnet')
+    lemmatizer = WordNetLemmatizer()
 
 # Load resources
 MODEL_PATH = 'model/passmodel.pkl'
