@@ -17,12 +17,18 @@ import time
 #     nltk.download('stopwords')
 #     nltk.download('wordnet')
 
+import nltk
+
+# Ensure NLTK resources are downloaded
 try:
     stop = set(stopwords.words('english'))
-    lemmatizer = WordNetLemmatizer()
 except LookupError:
     nltk.download('stopwords')
     stop = set(stopwords.words('english'))
+
+try:
+    lemmatizer = WordNetLemmatizer()
+except LookupError:
     nltk.download('wordnet')
     lemmatizer = WordNetLemmatizer()
 
