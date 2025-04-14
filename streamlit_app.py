@@ -11,11 +11,12 @@ import time
 
 # Download required NLTK resources
 # filepath: c:\codes\pyth\drug_ai\Drug_AI\streamlit_app.py
-# import os
-# nltk_data_path = os.path.expanduser('~\\nltk_data')
-# if not os.path.exists(nltk_data_path):
-#     nltk.download('stopwords')
-#     nltk.download('wordnet')
+import os
+nltk_data_path = os.path.expanduser('~\\nltk_data')
+if not os.path.exists(nltk_data_path):
+    os.makedirs(nltk_data_path)
+
+nltk.data.path.append(nltk_data_path)
 
 import nltk
 
@@ -23,13 +24,13 @@ import nltk
 try:
     stop = set(stopwords.words('english'))
 except LookupError:
-    nltk.download('stopwords')
+    nltk.download('stopwords', download_dir=nltk_data_path)
     stop = set(stopwords.words('english'))
 
 try:
     lemmatizer = WordNetLemmatizer()
 except LookupError:
-    nltk.download('wordnet')
+    nltk.download('wordnet', download_dir=nltk_data_path)
     lemmatizer = WordNetLemmatizer()
 
 # Load resources
