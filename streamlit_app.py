@@ -11,24 +11,37 @@ from nltk.corpus import stopwords
 from bs4 import BeautifulSoup
 import time
 
-# Download required NLTK resources
+# # Download required NLTK resources
+# nltk_data_path = os.path.expanduser('~\\nltk_data')
+# if not os.path.exists(nltk_data_path):
+#     os.makedirs(nltk_data_path)
+
+# nltk.data.path.append(nltk_data_path)
+
+# try:
+#     stop = set(stopwords.words('english'))
+# except LookupError:
+#     nltk.download('stopwords', download_dir=nltk_data_path)
+#     stop = set(stopwords.words('english'))
+
+# try:
+#     lemmatizer = WordNetLemmatizer()
+# except LookupError:
+#     nltk.download('wordnet', download_dir=nltk_data_path)
+#     lemmatizer = WordNetLemmatizer()
+
+# Set a custom NLTK data directory
 nltk_data_path = os.path.expanduser('~\\nltk_data')
 if not os.path.exists(nltk_data_path):
     os.makedirs(nltk_data_path)
 
 nltk.data.path.append(nltk_data_path)
 
-try:
-    stop = set(stopwords.words('english'))
-except LookupError:
-    nltk.download('stopwords', download_dir=nltk_data_path)
-    stop = set(stopwords.words('english'))
-
-try:
-    lemmatizer = WordNetLemmatizer()
-except LookupError:
-    nltk.download('wordnet', download_dir=nltk_data_path)
-    lemmatizer = WordNetLemmatizer()
+# Ensure required NLTK resources are downloaded
+nltk.download('stopwords', download_dir=nltk_data_path, quiet=True)
+stop=set(stopwords.words('english'))
+nltk.download('wordnet', download_dir=nltk_data_path, quiet=True)
+lemmatizer=WordNetLemmatizer()
 
 # Hugging Face repository details
 HF_REPO_ID = "Jilani001/Drug_AI_Models"  # Replace with your Hugging Face repo ID
