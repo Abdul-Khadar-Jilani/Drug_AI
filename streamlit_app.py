@@ -1,3 +1,5 @@
+from huggingface_hub import hf_hub_download
+import os
 import streamlit as st
 import joblib
 import pandas as pd
@@ -10,17 +12,12 @@ from bs4 import BeautifulSoup
 import time
 
 # Download required NLTK resources
-# filepath: c:\codes\pyth\drug_ai\Drug_AI\streamlit_app.py
-import os
 nltk_data_path = os.path.expanduser('~\\nltk_data')
 if not os.path.exists(nltk_data_path):
     os.makedirs(nltk_data_path)
 
 nltk.data.path.append(nltk_data_path)
 
-import nltk
-
-# Ensure NLTK resources are downloaded
 try:
     stop = set(stopwords.words('english'))
 except LookupError:
@@ -33,47 +30,37 @@ except LookupError:
     nltk.download('wordnet', download_dir=nltk_data_path)
     lemmatizer = WordNetLemmatizer()
 
-# Load resources
-MODEL_PATH = 'model/passmodel.pkl'
-TOKENIZER_PATH = 'model/tfidfvectorizer.pkl'
-#DATA_PATH = 'data/drugsComTest_raw.csv'
-DATA_PATH='data/drugsComTrain.csv'
+# Hugging Face repository details
+HF_REPO_ID = "Jilani001/Drug_AI_Models"  # Replace with your Hugging Face repo ID
+MODEL_FILENAME = "passmodel.pkl"
+TOKENIZER_FILENAME = "tfidfvectorizer.pkl"
 
-# try:
-#     vectorizer = joblib.load(TOKENIZER_PATH)
-#     model = joblib.load(MODEL_PATH)
-#     df = pd.read_csv(DATA_PATH)
-# except FileNotFoundError as e:
-#     st.error(f"Error: One or more required files not found: {e}")
-#     st.stop()  # Stop execution if files are missing
+# Local paths for the model and tokenizer
+LOCAL_MODEL_PATH = "model/passmodel.pkl"
+LOCAL_TOKENIZER_PATH = "model/tfidfvectorizer.pkl"
 
 
+# Download model and tokenizer from Hugging Face if not found locally
 @st.cache_resource
 def load_model_and_vectorizer():
-    vectorizer = joblib.load(TOKENIZER_PATH)
-    model = joblib.load(MODEL_PATH)
+    # Check if local files exist
+    if os.path.exists(LOCAL_MODEL_PATH) and os.path.exists(LOCAL_TOKENIZER_PATH):
+        model_path = LOCAL_MODEL_PATH
+        tokenizer_path = LOCAL_TOKENIZER_PATH
+    else:
+        # Inform users about the download process
+        with st.spinner("Downloading model and tokenizer..."):
+            model_path = hf_hub_download(repo_id=HF_REPO_ID, filename=MODEL_FILENAME)
+            tokenizer_path = hf_hub_download(repo_id=HF_REPO_ID, filename=TOKENIZER_FILENAME)
+            st.success("Download complete!")
+    
+    # Load the model and tokenizer
+    model = joblib.load(model_path)
+    vectorizer = joblib.load(tokenizer_path)
     return vectorizer, model
 
-# @st.cache_data
-# def load_data():
-#     return pd.read_csv(DATA_PATH)
-
 vectorizer, model = load_model_and_vectorizer()
-# df = load_data()
 
-# stop = stopwords.words('english')
-lemmatizer = WordNetLemmatizer()
-
-
-# def cleanText(raw_review):
-#     review_text = BeautifulSoup(raw_review, 'html.parser').get_text()
-#     letters_only = re.sub('[^a-zA-Z]', ' ', review_text)
-#     words = letters_only.lower().split()
-#     meaningful_words = [w for w in words if not w in stop]
-#     lemmitize_words = [lemmatizer.lemmatize(w) for w in meaningful_words]
-#     return ' '.join(lemmitize_words)
-
-# filepath: c:\codes\pyth\drug_ai\Drug_AI\streamlit_app.py
 # Precompile regex pattern
 letters_only_pattern = re.compile('[^a-zA-Z]')
 stop = set(stopwords.words('english'))  # Convert to set for faster lookups
@@ -86,20 +73,12 @@ def cleanText(raw_review):
     lemmitize_words = [lemmatizer.lemmatize(w) for w in meaningful_words]
     return ' '.join(lemmitize_words)
 
-
-# def top_drugs_extractor(condition, df):
-#     df_top = df[(df['rating'] >= 9) & (df['usefulCount'] >= 100)].sort_values(
-#         by=['rating', 'usefulCount'], ascending=[False, False]
-#     )
-#     drug_lst = df_top[df_top['condition'] == condition]['drugName'].head(3).tolist()
-#     return drug_lst
-
-# filepath: c:\codes\pyth\drug_ai\Drug_AI\streamlit_app.py
 @st.cache_data
 def preprocess_dataframe(data_path):
     df = pd.read_csv(data_path)
     return df[(df['rating'] >= 9) & (df['usefulCount'] >= 100)]
 
+DATA_PATH = 'data/drugsComTrain.csv'
 df = preprocess_dataframe(DATA_PATH)
 
 def top_drugs_extractor(condition, df):
@@ -112,11 +91,9 @@ st.title("Disease Condition and Drug Recommendation")
 
 raw_text = st.text_area("Enter your text here:", "")
 
-
 if st.button("Predict"):
     if raw_text:
         with st.spinner("Processing..."):
-        # Prediction logic here
             # Measure time for cleaning
             start_time = time.time()
             clean_text = cleanText(raw_text)
@@ -144,10 +121,5 @@ if st.button("Predict"):
         else:
             st.write("No top drugs found for this condition based on the criteria.")
 
-        # Display timing information
-        # st.write(f"**Time Taken:**")
-        # st.write(f"- Cleaning: {cleaning_time:.4f} seconds")
-        # st.write(f"- Prediction: {prediction_time:.4f} seconds")
-        # st.write(f"- Finding Top Drugs: {top_drugs_time:.4f} seconds")
     else:
         st.write("Please enter text for prediction.")
