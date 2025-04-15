@@ -122,4 +122,4 @@ if st.button("Predict"):
             st.write("No top drugs found for this condition based on the criteria.")
 
     else:
-        st.write("Please enter text for prediction.")
+        st.write("Please enter text for prediction...")
