@@ -46,7 +46,7 @@ lemmatizer=WordNetLemmatizer()
 # Hugging Face repository details
 HF_REPO_ID = "Jilani001/Drug_AI_Models"  # Replace with your Hugging Face repo ID
 MODEL_FILENAME = "passmodel_quantized_compressed.pkl"
-TOKENIZER_FILENAME = "passmodel_quantized_compressed.pkl"
+TOKENIZER_FILENAME = "tfidfvectorizer_compressed.pkl"
 
 # Local paths for the model and tokenizer
 # LOCAL_MODEL_PATH = "model/passmodel.pkl"
