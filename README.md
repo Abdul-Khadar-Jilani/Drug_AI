@@ -1,5 +1,7 @@
 # Drug Recommendation System
 
+- **App**: [Disease Condition and Drug Recommendation](https://passive-aggclass-drug-recommend.streamlit.app/)
+
 This project is a Machine Learning-based Drug Recommendation System. The application uses the Passive-Aggressive Classifier model to predict and recommend drugs based on user input. The project includes a Streamlit web application that serves the machine learning model.
 
 ## Table of Contents
