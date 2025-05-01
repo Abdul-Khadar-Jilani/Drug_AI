@@ -67,15 +67,15 @@ def load_model_and_vectorizer():
     else:
         # Inform users about the download process
         with st.spinner("Downloading model and tokenizer..."):
-            model_path = hf_hub_download(repo_id=HF_REPO_ID, filename=MODEL_FILENAME)
-            tokenizer_path = hf_hub_download(repo_id=HF_REPO_ID, filename=TOKENIZER_FILENAME)
+            model_path = hf_hub_download(repo_id=HF_REPO_ID, filename=MODEL_FILENAME, resume_download=True)
+            tokenizer_path = hf_hub_download(repo_id=HF_REPO_ID, filename=TOKENIZER_FILENAME, resume_download=True)
             st.success("Download complete!")
     
     # Load the model and tokenizer
     model = joblib.load(model_path)
     vectorizer = joblib.load(tokenizer_path)
     return vectorizer, model
-
+    
 vectorizer, model = load_model_and_vectorizer()
 
 # Precompile regex pattern
